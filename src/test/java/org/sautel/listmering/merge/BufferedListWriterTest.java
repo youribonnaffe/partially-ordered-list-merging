@@ -9,7 +9,7 @@ import org.sautel.listmerging.merge.BufferedListWriter;
 public class BufferedListWriterTest {
 	@Test
 	public void write() {
-		BufferedListWriter writer = new BufferedListWriter();
+		BufferedListWriter<Integer> writer = new BufferedListWriter<>();
 
 		writer.write(2);
 		writer.write(1);

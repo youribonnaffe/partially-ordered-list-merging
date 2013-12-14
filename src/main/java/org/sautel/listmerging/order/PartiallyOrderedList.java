@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class PartiallyOrderedList implements OrderedList {
-	private final Iterator<Integer> iterator;
-	private final List<Integer> bufferedValues;
+public class PartiallyOrderedList<T extends Comparable<T>> implements
+		OrderedList<T> {
+	private final Iterator<T> iterator;
+	private final List<T> bufferedValues;
 
-	public PartiallyOrderedList(Iterator<Integer> iterator, int maxPositionError) {
+	public PartiallyOrderedList(Iterator<T> iterator, int maxPositionError) {
 		this.iterator = iterator;
 		int bufferSize = maxPositionError + 1;
 		bufferedValues = new ArrayList<>(bufferSize);
@@ -21,7 +22,7 @@ public class PartiallyOrderedList implements OrderedList {
 
 	@Override
 	public void consumeCurrentElement() {
-		int currentValue = getCurrentElement();
+		T currentValue = getCurrentElement();
 		int currentValueIndex = bufferedValues.indexOf(currentValue);
 		bufferedValues.remove(currentValueIndex);
 		addNextValueIfExists();
@@ -34,7 +35,7 @@ public class PartiallyOrderedList implements OrderedList {
 	}
 
 	@Override
-	public int getCurrentElement() {
+	public T getCurrentElement() {
 		return min(bufferedValues);
 	}
 

@@ -1,9 +1,9 @@
 package org.sautel.listmerging.order;
 
-public interface OrderedList {
+public interface OrderedList<T> {
 	void consumeCurrentElement();
 
-	int getCurrentElement();
+	T getCurrentElement();
 
 	boolean hasCurrentElement();
 }

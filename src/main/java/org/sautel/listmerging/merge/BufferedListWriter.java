@@ -3,15 +3,15 @@ package org.sautel.listmerging.merge;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BufferedListWriter implements ListWriter {
-	private final List<Integer> values = new LinkedList<>();
+public class BufferedListWriter<T> implements ListWriter<T> {
+	private final List<T> values = new LinkedList<>();
 
 	@Override
-	public void write(int value) {
+	public void write(T value) {
 		values.add(value);
 	}
 
-	public List<Integer> getValues() {
+	public List<T> getValues() {
 		return values;
 	}
 }

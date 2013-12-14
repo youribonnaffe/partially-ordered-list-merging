@@ -9,33 +9,32 @@ import org.sautel.listmerging.order.OrderedList;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Ordering;
-import com.google.common.primitives.Ints;
 
-public class OrderedListMerger {
-	private static final class OrderedListOrdering extends
-			Ordering<OrderedList> {
+public class OrderedListMerger<T extends Comparable<T>> {
+	private static final class OrderedListOrdering<T extends Comparable<T>>
+			extends Ordering<OrderedList<T>> {
 		@Override
-		public int compare(OrderedList list1, OrderedList list2) {
-			return Ints.compare(list1.getCurrentElement(),
+		public int compare(OrderedList<T> list1, OrderedList<T> list2) {
+			return list1.getCurrentElement().compareTo(
 					list2.getCurrentElement());
 		}
 	}
 
-	private static final class ActiveInputListPredicate implements
-			Predicate<OrderedList> {
+	private static final class ActiveInputListPredicate<T> implements
+			Predicate<OrderedList<T>> {
 		@Override
-		public boolean apply(OrderedList input) {
+		public boolean apply(OrderedList<T> input) {
 			return input.hasCurrentElement();
 		}
 	}
 
-	private static final OrderedListOrdering orderedListComparator = new OrderedListOrdering();
-	private static final ActiveInputListPredicate activeInputListPredicate = new ActiveInputListPredicate();
+	private final ActiveInputListPredicate<T> activeInputListPredicate = new ActiveInputListPredicate<>();
+	private final OrderedListOrdering<T> orderedListComparator = new OrderedListOrdering<>();
 
-	public void merge(List<OrderedList> inputLists, ListWriter writer) {
-		Collection<OrderedList> activeInputLists = filterActiveInputLists(inputLists);
+	public void merge(List<OrderedList<T>> inputLists, ListWriter<T> writer) {
+		Collection<OrderedList<T>> activeInputLists = filterActiveInputLists(inputLists);
 		while (!activeInputLists.isEmpty()) {
-			OrderedList minInputList = orderedListComparator
+			OrderedList<T> minInputList = orderedListComparator
 					.min(activeInputLists);
 			writer.write(minInputList.getCurrentElement());
 			minInputList.consumeCurrentElement();
@@ -43,8 +42,8 @@ public class OrderedListMerger {
 		}
 	}
 
-	private Collection<OrderedList> filterActiveInputLists(
-			List<OrderedList> inputLists) {
+	private Collection<OrderedList<T>> filterActiveInputLists(
+			List<OrderedList<T>> inputLists) {
 		return filter(inputLists, activeInputListPredicate);
 	}
 }

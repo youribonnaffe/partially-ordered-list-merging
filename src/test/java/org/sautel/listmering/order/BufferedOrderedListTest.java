@@ -10,30 +10,30 @@ import org.sautel.listmerging.order.BufferedOrderedList;
 public class BufferedOrderedListTest {
 	@Test
 	public void emptyList() {
-		BufferedOrderedList list = new BufferedOrderedList();
+		BufferedOrderedList<Integer> list = new BufferedOrderedList<>();
 
 		assertFalse(list.hasCurrentElement());
 	}
 
 	@Test
 	public void oneElementList() {
-		BufferedOrderedList list = new BufferedOrderedList(1);
+		BufferedOrderedList<Integer> list = new BufferedOrderedList<>(1);
 
 		assertTrue(list.hasCurrentElement());
-		assertEquals(1, list.getCurrentElement());
+		assertEquals(1, (int) list.getCurrentElement());
 		list.consumeCurrentElement();
 		assertFalse(list.hasCurrentElement());
 	}
 
 	@Test
 	public void twoElementList() {
-		BufferedOrderedList list = new BufferedOrderedList(2, 1);
+		BufferedOrderedList<Integer> list = new BufferedOrderedList<>(2, 1);
 
 		assertTrue(list.hasCurrentElement());
-		assertEquals(1, list.getCurrentElement());
+		assertEquals(1, (int) list.getCurrentElement());
 		list.consumeCurrentElement();
 		assertTrue(list.hasCurrentElement());
-		assertEquals(2, list.getCurrentElement());
+		assertEquals(2, (int) list.getCurrentElement());
 		list.consumeCurrentElement();
 		assertFalse(list.hasCurrentElement());
 	}

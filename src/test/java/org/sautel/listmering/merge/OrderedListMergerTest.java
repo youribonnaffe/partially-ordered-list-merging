@@ -16,26 +16,27 @@ import org.sautel.listmerging.order.BufferedOrderedList;
 import org.sautel.listmerging.order.OrderedList;
 
 public class OrderedListMergerTest {
-	private BufferedListWriter writer;
-	private OrderedListMerger orderedListMerger;
+	private BufferedListWriter<Integer> writer;
+	private OrderedListMerger<Integer> orderedListMerger;
 
 	@Before
 	public void setUp() {
-		writer = new BufferedListWriter();
-		orderedListMerger = new OrderedListMerger();
+		writer = new BufferedListWriter<Integer>();
+		orderedListMerger = new OrderedListMerger<Integer>();
 	}
 
 	@Test
 	public void noInputList() {
-		orderedListMerger.merge(Collections.<OrderedList> emptyList(), writer);
+		orderedListMerger.merge(Collections.<OrderedList<Integer>> emptyList(),
+				writer);
 
 		assertTrue(writer.getValues().isEmpty());
 	}
 
 	@Test
 	public void oneInputList() {
-		List<OrderedList> inputsList = Arrays
-				.<OrderedList> asList(new BufferedOrderedList(1));
+		List<OrderedList<Integer>> inputsList = Arrays
+				.<OrderedList<Integer>> asList(new BufferedOrderedList<>(1));
 
 		orderedListMerger.merge(inputsList, writer);
 
@@ -44,8 +45,9 @@ public class OrderedListMergerTest {
 
 	@Test
 	public void twoInputLists() {
-		List<OrderedList> inputsList = Arrays.<OrderedList> asList(
-				new BufferedOrderedList(1), new BufferedOrderedList(2));
+		List<OrderedList<Integer>> inputsList = Arrays
+				.<OrderedList<Integer>> asList(new BufferedOrderedList<>(1),
+						new BufferedOrderedList<>(2));
 
 		orderedListMerger.merge(inputsList, writer);
 
@@ -53,10 +55,10 @@ public class OrderedListMergerTest {
 	}
 
 	@Test
-	public void twoInputListsWithSeveralValue() {
-		List<OrderedList> inputsList = Arrays.<OrderedList> asList(
-				new BufferedOrderedList(1, 3, 4, 7), new BufferedOrderedList(2,
-						5, 6));
+	public void twoInputListsWithSeveralValues() {
+		List<OrderedList<Integer>> inputsList = Arrays
+				.<OrderedList<Integer>> asList(new BufferedOrderedList<>(1, 3,
+						4, 7), new BufferedOrderedList<>(2, 5, 6));
 
 		orderedListMerger.merge(inputsList, writer);
 
